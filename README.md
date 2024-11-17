@@ -17,3 +17,27 @@
 [![DOI](https://zenodo.org/badge/429097663.svg)](https://zenodo.org/badge/latestdoi/429097663)
 [![Release](https://img.shields.io/github/v/release/deepr41/wolfjobs)](https://gitHub.com/deepr41/Wolfjobs)
 [![codecov](https://codecov.io/gh/deepr41/WolfJobs/graph/badge.svg?token=RH472ZM4PT)](https://codecov.io/gh/deepr41/WolfJobs)
+
+# Python LS Tool
+
+This is a Python-based tool that replicates the core functionality of the Unix `ls` command. It supports multiple flags for listing files and directories with various options.
+
+## Features
+
+- List files in the current directory
+- `-l`: Long listing format (file permissions, size, modification time)
+- `-a`: Show hidden files
+- `-h`: Human-readable file sizes
+- `-S`: Sort by size
+- `-t`: Sort by modification time
+- `-r`: Reverse order
+- `-d`: List directories themselves
+- `-1`: List one entry per line
+
+## Installation
+
+Clone the repository:
+```bash
+git clone https://github.com/yourusername/python-ls-tool.git
+cd python-ls-tool
+pip install -r requirements.txt
