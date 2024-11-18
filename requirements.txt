@@ -1,0 +1,5 @@
+coverage
+pytest-mock
+pytest
+mock
+pandas
