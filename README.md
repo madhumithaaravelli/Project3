@@ -16,6 +16,7 @@
 [![Release](https://img.shields.io/github/v/release/madhumithaaravelli/Project3)](https://gitHub.com/madhumithaaravelli/Project3)
 [![codecov](https://codecov.io/gh/madhumithaaravelli/Project3/graph/badge.svg?token=RH472ZM4PT)](https://codecov.io/gh/madhumithaaravelli/Project3)
 
+
 # Python LS Tool
 
 This is a Python-based tool that replicates the core functionality of the Unix `ls` command. It supports multiple flags for listing files and directories with various options.
