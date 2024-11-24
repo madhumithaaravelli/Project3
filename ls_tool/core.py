@@ -1,4 +1,5 @@
 import os
+import stat
 
 def list_directory(path='.', show_all=False, recursive=False, sort_by=None):
     """
@@ -27,4 +28,15 @@ def list_directory(path='.', show_all=False, recursive=False, sort_by=None):
         elif sort_by == 'mtime':
             entries.sort(key=lambda x: os.path.getmtime(os.path.join(path, x)))
         result.append({"path": path, "entries": entries})
-    return result
+    result.append({
+    "path": path,
+    "entries": [
+        {"name": entry, "permissions": get_file_permissions(os.path.join(path, entry))}
+        for entry in entries
+    ]
+    })
+
+def get_file_permissions(filepath):
+    mode = os.stat(filepath).st_mode
+    return stat.filemode(mode)
+
