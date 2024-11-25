@@ -44,6 +44,7 @@ def main():
     parser.add_argument("-s", "--sort", choices=["size", "mtime"], help="Sort by size or modification time")
     parser.add_argument("-P", "--permissions", action="store_true", help="Display file permissions")
     parser.add_argument("-c", "--checksum", action="store_true", help="Display file checksum")
+    parser.add_argument("--reverse", action="store_true", help="Reverse the sorting order")
 
     args = parser.parse_args()
     
@@ -83,7 +84,8 @@ def main():
                 path=args.path,
                 show_all=args.all,
                 recursive=args.recursive,
-                sort_by=args.sort
+                sort_by=args.sort,
+                reverse=args.reverse
             )
             if args.json:
                 print(json.dumps(result, indent=4))

@@ -28,7 +28,7 @@ def get_file_checksum(filepath, algorithm="md5"):
 def get_entry_details(root, entries):
 
     "Helper function for list_Directory"
-    
+
     return [
                 {
                     "name": entry,
@@ -40,7 +40,7 @@ def get_entry_details(root, entries):
                 for entry in entries
             ]
 
-def list_directory(path='.', show_all=False, recursive=False, sort_by=None):
+def list_directory(path='.', show_all=False, recursive=False, sort_by=None, reverse=False):
     """
     Lists the contents of a directory with optional flags.
 
@@ -54,11 +54,11 @@ def list_directory(path='.', show_all=False, recursive=False, sort_by=None):
     if recursive:
         for root, dirs, files in os.walk(path):
             entries = dirs + files if show_all else [entry for entry in dirs + files if not entry.startswith('.')]
-            entry_details = get_entry_details(path, entries)
+            entry_details = get_entry_details(path, entries, reverse)
             if sort_by == 'size':
-                entry_details.sort(key=lambda x: x["size"])
+                entry_details.sort(key=lambda x: x["size"], reverse=reverse)
             elif sort_by == 'mtime':
-                entry_details.sort(key=lambda x: x["mtime"])
+                entry_details.sort(key=lambda x: x["mtime"], reverse=reverse)
             result.append({"path": root, "entries": entry_details})
     else:
         entries = os.listdir(path)
@@ -66,9 +66,9 @@ def list_directory(path='.', show_all=False, recursive=False, sort_by=None):
             entries = [entry for entry in entries if not entry.startswith('.')]
         entry_details = get_entry_details(path, entries)
         if sort_by == 'size':
-            entry_details.sort(key=lambda x: x["size"])
+            entry_details.sort(key=lambda x: x["size"], reverse=reverse)
         elif sort_by == 'mtime':
-            entry_details.sort(key=lambda x: x["mtime"])
+            entry_details.sort(key=lambda x: x["mtime"], reverse=reverse)
         result.append({"path": path, "entries": entry_details})
 
     return result
