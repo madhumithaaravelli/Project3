@@ -1,5 +1,6 @@
 import os
 import stat
+import hashlib
 
 def get_file_permissions(filepath):
     """
@@ -9,6 +10,20 @@ def get_file_permissions(filepath):
     """
     mode = os.stat(filepath).st_mode
     return stat.filemode(mode)
+
+def get_file_checksum(filepath, algorithm="md5"):
+    """
+    Computes the checksum of a file.
+    :param filepath: Path to the file.
+    :param algorithm: Hashing algorithm (md5, sha256, etc.).
+    :return: Checksum value as a string.
+    """
+    hash_func = hashlib.new(algorithm)
+    with open(filepath, 'rb') as f:
+        while chunk := f.read(8192):
+            hash_func.update(chunk)
+    return hash_func.hexdigest()
+
 
 def list_directory(path='.', show_all=False, recursive=False, sort_by=None):
     """
