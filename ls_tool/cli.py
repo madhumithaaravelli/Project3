@@ -3,7 +3,7 @@ import sys
 import os
 import json
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from ls_tool.core import list_directory
+from ls_tool.core import list_directory, get_file_checksum
 
 # Helper function to list Python files recursively
 def list_python_files_recursive(path):
@@ -43,6 +43,8 @@ def main():
     parser.add_argument("-d", "--dependencies", action="store_true", help="List dependency files")
     parser.add_argument("-s", "--sort", choices=["size", "mtime"], help="Sort by size or modification time")
     parser.add_argument("-P", "--permissions", action="store_true", help="Display file permissions")
+    parser.add_argument("-c", "--checksum", action="store_true", help="Display file checksum")
+    parser.add_argument("--reverse", action="store_true", help="Reverse the sorting order")
 
     args = parser.parse_args()
     
@@ -82,7 +84,8 @@ def main():
                 path=args.path,
                 show_all=args.all,
                 recursive=args.recursive,
-                sort_by=args.sort
+                sort_by=args.sort,
+                reverse=args.reverse
             )
             if args.json:
                 print(json.dumps(result, indent=4))
@@ -90,7 +93,13 @@ def main():
                 for entry in result:
                     print(f"Directory: {entry['path']}")
                     for item in entry['entries']:
-                        print(f"  {item['name']} - {item['type']} - {item['size']} bytes - Permissions: {item['permissions']}")
+                        if args.checksum and item['type'] == 'file':
+                            checksum = get_file_checksum(os.path.join(entry['path'], item['name']))
+                            print(f"  {item['name']} | Checksum: {checksum}")
+                        elif args.permissions:
+                            print(f"  {item['name']} - {item['type']} - {item['size']} bytes - Permissions: {item['permissions']}")
+                        else:
+                            print(f"  {item['name']} - {item['type']} - {item['size']} bytes")
     except Exception as e:
         print(f"Error: {e}")
 
