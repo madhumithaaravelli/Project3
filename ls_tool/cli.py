@@ -71,6 +71,7 @@ def main():
     parser.add_argument("-l", "--long", action="store_true", help="Use a long listing format")
     parser.add_argument("-H", "--human", action="store_true", help="Display sizes in human-readable format")
     parser.add_argument("--reverse", action="store_true", help="Reverse the sorting order")
+    parser.add_argument("-F", "--classify", action="store_true", help="Append file type indicators")
 
     args = parser.parse_args()
 
@@ -110,7 +111,8 @@ def main():
                 show_all=args.all,
                 recursive=args.recursive,
                 sort_by=args.sort,
-                reverse=args.reverse
+                reverse=args.reverse,
+                append_type_symbol=args.classify
             )
             if args.json:
                 print(json.dumps(result, indent=4))
