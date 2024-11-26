@@ -42,6 +42,27 @@ This project is designed to provide similar functionality with additional custom
 
 -d, --dependencies	List dependency files such as requirements.txt, Pipfile, or Pipfile.lock.
 
+-P, --permissions Display permissions of a file
+
+-c, --checksum Display file checksum (currently used md5 algorithm to compute checksum)
+
+-l, --long Use a long listing format to display permissions , modification date & time, size 
+
+-H, --human Display size of a file in human readable format
+
+--reverse, Reverse the sorting order
+
+-F, --classify  Append file type indicators
+
+--color  Colorize output based on file type
+
+--depth DEPTH  Limit recursion depth (e.g., --depth 2)
+
+--exclude EXCLUDE Exclude files matching a pattern (e.g., '*.tmp')
+
+--user Display the owning user of each file
+
+--group Display the owning group of each file
 
 The custom ls tool supports the following functionality:
 
@@ -55,6 +76,8 @@ The custom ls tool supports the following functionality:
     
   **JSON Output:** Outputs results in JSON format with the -j flag.
 
+  **User and group details:** Outputs the files along with owner and group 
+
 ### Custom Features:
 
   **Sorting:**
@@ -62,6 +85,8 @@ The custom ls tool supports the following functionality:
       By file size (-s size).
         
       By modification time (-s mtime).
+
+      reverse the sorting order
         
   **File Type Filters:**
   
@@ -72,6 +97,12 @@ The custom ls tool supports the following functionality:
   **Environment Detection:** Lists virtual environments (-e).
   
   **Dependencies:** Lists common dependency files like requirements.txt and Pipfile (-d).
+
+  **Colorize:** Outputs the list of files and directories with different colors based on file type.
+
+  **Checksum:** Outputs the list of files along with unique hexa decimal text called checksum.
+
+
     
 ## Installation
 
@@ -127,6 +158,20 @@ Sort files by size in the current directory:
 Output the result in JSON format:
 
  - ```python3 ls_tool/cli.py -j```
+
+Output the recursive list of all file with depth 2
+
+ - ```python3 ls_tool/cli.py -R --depth 2```
+
+Colorize output based on file type
+
+ - ```python3 ls_tool/cli.py --color```
+
+Exclude list of .txt files from output
+
+ - ```python3 ls_tool/cli.py --exclude *.txt```
+
+
 
 ## Testing
 
