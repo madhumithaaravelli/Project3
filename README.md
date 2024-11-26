@@ -15,7 +15,7 @@
 [![DOI](https://zenodo.org/badge/429097663.svg)](https://zenodo.org/badge/latestdoi/429097663)
 [![Release](https://img.shields.io/github/v/release/madhumithaaravelli/Project3)](https://gitHub.com/madhumithaaravelli/Project3)
 [![codecov](https://codecov.io/gh/madhumithaaravelli/Project3/graph/badge.svg?token=RH472ZM4PT)](https://codecov.io/gh/madhumithaaravelli/Project3)
-
+[![Build Status](https://github.com/madhumithaaravelli/Project3/actions/workflows/main.yml/badge.svg)](https://github.com/madhumithaaravelli/Project3/actions/workflows/main.yml)
 
 # Python LS Tool
 
