@@ -5,6 +5,9 @@ import json
 from pathlib import Path
 from datetime import datetime
 from termcolor import colored
+import fnmatch
+import pwd
+import grp
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from ls_tool.core import list_directory, get_file_checksum
@@ -69,6 +72,20 @@ def print_long_listing(entry, path, args):
         else:
             print(f"{item['name']} - {item['type']}")
 
+# Helper function for recursive depth
+def list_directory_with_depth(path, max_depth, current_depth=0):
+    """List files and directories up to a certain depth."""
+    if current_depth > max_depth:
+        return []
+    entries = []
+    for entry in os.scandir(path):
+        entries.append(entry.path)
+        if entry.is_dir(follow_symlinks=False):
+            entries.extend(
+                list_directory_with_depth(entry.path, max_depth, current_depth + 1)
+            )
+    return entries
+
 
 def main():
     parser = argparse.ArgumentParser(description="Custom ls command tool.")
@@ -88,10 +105,26 @@ def main():
     parser.add_argument("--reverse", action="store_true", help="Reverse the sorting order")
     parser.add_argument("-F", "--classify", action="store_true", help="Append file type indicators")
     parser.add_argument("--color", action="store_true", help="Colorize output based on file type")
+    parser.add_argument("--depth", type=int, help="Limit recursion depth (e.g., --depth 2)")
+    parser.add_argument("--exclude", type=str, help="Exclude files matching a pattern (e.g., '*.tmp')")
+    parser.add_argument("--user", action="store_true", help="Display the owning user of each file")
+    parser.add_argument("--group", action="store_true", help="Display the owning group of each file")
 
     args = parser.parse_args()
 
     try:
+        if args.recursive and args.depth:
+            print(f"Listing up to depth {args.depth} recursively...")
+            entries = list_directory_with_depth(args.path, args.depth)
+            print("\n".join(entries))
+            return
+
+        result = list_directory(
+            path=args.path,
+            show_all=args.all,
+            recursive=args.recursive,
+        )
+
         if args.python:
             print("Python Files:")
             python_files = list_python_files_recursive(args.path)
@@ -149,6 +182,16 @@ def main():
                             elif args.human:
                                 size = human_readable_size(item['size']) if args.human else f"{item['size']} bytes"
                                 print(f"  {item['name']} - {item['type']} - {size}")
+                            elif args.user:
+                                stat_info = os.stat(os.path.join(".", item['name']))
+                                owner = pwd.getpwuid(stat_info.st_uid).pw_name
+                                print(f"{item['name']} | Owner: {owner}")
+                            elif args.group:
+                                stat_info = os.stat(os.path.join(".", item['name']))
+                                group = grp.getgrgid(stat_info.st_gid).gr_name
+                                print(f"  {item['name']} | Group: {group}")
+                            elif args.exclude and fnmatch.fnmatch(item['name'], args.exclude):
+                                continue
                             else:
                                 print(f"  {item['name']} - {item['type']} - {item['size']} bytes")
     except FileNotFoundError as e:
