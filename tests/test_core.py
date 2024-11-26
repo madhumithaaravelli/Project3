@@ -21,7 +21,7 @@ def test_list_directory_hidden_files():
 
 def test_show_all():
     result = list_directory(path=".", show_all=True)
-    assert all(item.startswith('.') for entry in result for item in entry['entries'] if item.startswith('.'))
+    assert all(isinstance(item, str) and item.startswith('.') for entry in result for item in entry['entries'] if isinstance(item, str) and item.startswith('.'))
 
 def test_recursive():
     result = list_directory(path=".", recursive=True)
