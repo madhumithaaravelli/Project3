@@ -2,6 +2,10 @@ import argparse
 import sys
 import os
 import json
+from pathlib import Path
+from datetime import datetime
+from termcolor import colored
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from ls_tool.core import list_directory, get_file_checksum
 
@@ -31,6 +35,41 @@ def list_dependency_files(path):
     dependency_files = ['requirements.txt', 'Pipfile', 'Pipfile.lock', 'environment.yml']
     return [f for f in os.listdir(path) if f in dependency_files]
 
+#Helper function to convert file size to human readable size format
+def human_readable_size(size):
+    """Convert size in bytes to a human-readable format."""
+    for unit in ["B", "K", "M", "G", "T", "P"]:
+        if size < 1024:
+            return f"{size:.1f}{unit}"
+        size /= 1024
+    return f"{size:.1f}P"
+
+#Helper function to colorize files based on file type
+def print_colored_output(entry, args):
+    for item in entry['entries']:
+        if args.checksum and item['type'] == 'file':
+            checksum = get_file_checksum(os.path.join(entry['path'], item['name']))
+            print(f"  {colored(item['name'], 'cyan')} | Checksum: {checksum}")
+        elif args.permissions:
+            print(f"  {colored(item['name'], 'yellow')} - {item['type']} - {item['size']} bytes - Permissions: {item['permissions']}")
+        elif item['type'] == 'directory':
+            print(f"  {colored(item['name'], 'blue')} - {item['type']} - {item['size']} bytes")
+        elif item['type'] == 'file':
+            print(f"  {colored(item['name'], 'green')} - {item['type']} - {item['size']} bytes")
+
+
+def print_long_listing(entry, path, args):
+    """Print long listing details for an entry."""
+    for item in entry['entries']:
+        if item['type'] == 'file' or item['type'] == 'directory':
+            size = human_readable_size(item['size']) if args.human else f"{item['size']} bytes"
+            permissions = item['permissions']
+            mtime = datetime.fromtimestamp(item['mtime']).strftime('%Y-%m-%d %H:%M:%S')
+            print(f"{permissions} {size} {mtime} {item['name']}")
+        else:
+            print(f"{item['name']} - {item['type']}")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Custom ls command tool.")
     parser.add_argument("path", nargs="?", default=".", help="Directory path to list")
@@ -44,12 +83,15 @@ def main():
     parser.add_argument("-s", "--sort", choices=["size", "mtime"], help="Sort by size or modification time")
     parser.add_argument("-P", "--permissions", action="store_true", help="Display file permissions")
     parser.add_argument("-c", "--checksum", action="store_true", help="Display file checksum")
+    parser.add_argument("-l", "--long", action="store_true", help="Use a long listing format")
+    parser.add_argument("-H", "--human", action="store_true", help="Display sizes in human-readable format")
     parser.add_argument("--reverse", action="store_true", help="Reverse the sorting order")
+    parser.add_argument("-F", "--classify", action="store_true", help="Append file type indicators")
+    parser.add_argument("--color", action="store_true", help="Colorize output based on file type")
 
     args = parser.parse_args()
-    
+
     try:
-        # Combine flags logic
         if args.python:
             print("Python Files:")
             python_files = list_python_files_recursive(args.path)
@@ -79,29 +121,43 @@ def main():
             else:
                 print("No dependency files found.")
         else:
-            # Default behavior for listing directory
+            # Default behavior for directory listing
             result = list_directory(
                 path=args.path,
                 show_all=args.all,
                 recursive=args.recursive,
                 sort_by=args.sort,
-                reverse=args.reverse
+                reverse=args.reverse,
+                append_type_symbol=args.classify
             )
             if args.json:
                 print(json.dumps(result, indent=4))
             else:
                 for entry in result:
                     print(f"Directory: {entry['path']}")
-                    for item in entry['entries']:
-                        if args.checksum and item['type'] == 'file':
-                            checksum = get_file_checksum(os.path.join(entry['path'], item['name']))
-                            print(f"  {item['name']} | Checksum: {checksum}")
-                        elif args.permissions:
-                            print(f"  {item['name']} - {item['type']} - {item['size']} bytes - Permissions: {item['permissions']}")
-                        else:
-                            print(f"  {item['name']} - {item['type']} - {item['size']} bytes")
+                    if args.long:
+                        print_long_listing(entry, entry['path'], args)
+                    elif args.color:
+                        print_colored_output(entry, args)
+                    else:
+                        for item in entry['entries']:
+                            if args.checksum and item['type'] == 'file':
+                                checksum = get_file_checksum(os.path.join(entry['path'], item['name']))
+                                print(f"  {item['name']} | Checksum: {checksum}")
+                            elif args.permissions:
+                                print(f"  {item['name']} - {item['type']} - {item['size']} bytes - Permissions: {item['permissions']}")
+                            elif args.human:
+                                size = human_readable_size(item['size']) if args.human else f"{item['size']} bytes"
+                                print(f"  {item['name']} - {item['type']} - {size}")
+                            else:
+                                print(f"  {item['name']} - {item['type']} - {item['size']} bytes")
+    except FileNotFoundError as e:
+        print(f"Error: Path not found - {e}")
+    except PermissionError as e:
+        print(f"Error: Permission denied - {e}")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Unexpected Error: {e}")
+
 
 if __name__ == "__main__":
     main()
