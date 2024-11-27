@@ -4,3 +4,5 @@ pytest
 mock
 pandas
 termcolor
+pytest
+pytest-cov
