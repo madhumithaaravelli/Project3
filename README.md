@@ -23,6 +23,10 @@
 This is a Python-based tool that replicates the core functionality of the Unix `ls` command. It supports multiple flags for listing files and directories with various options.
 This project is designed to provide similar functionality with additional custom features. It showcases the ability to handle various flags, recursively list directory contents, and process file metadata in a user-friendly way. The project is implemented using Python's standard libraries and organized in a modular structure.
 
+## Demo link 
+
+https://drive.google.com/file/d/1_ITYOcTvk_5eOt2xWI_2pGiFR8xBRh3Z/view?usp=sharing
+
 ## Features
 
 - List files in the current directory
@@ -74,10 +78,14 @@ The custom ls tool supports the following functionality:
   **Hidden Files:** Includes hidden files with the -a flag.
     
   **Recursive Listing:** Recursively lists directory contents with the -R flag.
+    <p align="center"><img width="700" src="p4.png"></p>
+
     
   **JSON Output:** Outputs results in JSON format with the -j flag.
 
   **User and group details:** Outputs the files along with owner and group 
+  <p align="center"><img width="700" src="p3.png"></p>
+
 
 ### Custom Features:
 
@@ -88,6 +96,9 @@ The custom ls tool supports the following functionality:
       By modification time (-s mtime).
 
       reverse the sorting order
+
+  <p align="center"><img width="700" src="p1.png"></p>
+
         
   **File Type Filters:**
   
@@ -100,9 +111,12 @@ The custom ls tool supports the following functionality:
   **Dependencies:** Lists common dependency files like requirements.txt and Pipfile (-d).
 
   **Colorize:** Outputs the list of files and directories with different colors based on file type.
+  <p align="center"><img width="700" src="p5.png"></p>
 
   **Checksum:** Outputs the list of files along with unique hexa decimal text called checksum.
 
+  **Long and Human readable file size outputs:** Displays the output in long format and other flag converts size to human readable size.
+  <p align="center"><img width="700" src="p2.png"></p>
 
     
 ## Installation
