@@ -24,15 +24,15 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pytest pytest-cov codecov
+        pip install -r requirements.txt  # Make sure termcolor is in requirements.txt
 
-    - name: Run tests
+    - name: Run tests with coverage
       run: |
-        pytest --cov=your_package --cov-report=xml
+        pytest --cov=your_package --cov-report=xml  # Run pytest and generate coverage report
 
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
-        token: ${{ secrets.CODECOV_TOKEN }} # Add this token in repository settings
-        files: coverage.xml # Ensure this matches the coverage file path
-        flags: unittests # Optional flag for grouping
+        token: ${{ secrets.CODECOV_TOKEN }} 
+        files: coverage.xml  
+        flags: unittests 
