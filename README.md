@@ -13,6 +13,7 @@
 [![Downloads](https://img.shields.io/github/downloads/madhumithaaravelli/Project3/total)](https://GitHub.com/madhumithaaravelli/Project3/)
 [![Top Language](https://img.shields.io/github/languages/top/madhumithaaravelli/Project3)](https://GitHub.com/madhumithaaravelli/Project3/)
 [![DOI](https://zenodo.org/badge/429097663.svg)](https://zenodo.org/badge/latestdoi/429097663)
+[![Version](https://img.shields.io/github/v/release/madhumithaaravelli/Project3?color=ff69b4&label=Version)](https://img.shields.io/github/v/release/madhumithaaravelli/Project3?color=ff69b4&label=Version)
 [![Release](https://img.shields.io/github/v/release/madhumithaaravelli/Project3)](https://gitHub.com/madhumithaaravelli/Project3)
 [![codecov](https://codecov.io/gh/madhumithaaravelli/Project3/graph/badge.svg?token=RH472ZM4PT)](https://codecov.io/gh/madhumithaaravelli/Project3)
 [![Build Status](https://github.com/madhumithaaravelli/Project3/actions/workflows/main.yml/badge.svg)](https://github.com/madhumithaaravelli/Project3/actions/workflows/main.yml)
@@ -178,4 +179,20 @@ Exclude list of .txt files from output
 To test the functionality of the tool, use pytest:
 
  - ```pytest tests/```
+
+   
+:page_facing_up: License
+---
+This project is licensed under the terms of the MIT license. Please check [LICENSE](https://github.com/madhumithaaravelli/Project3/blob/main/LICENSE) for more details.
+
+## Contributors
+<table>
+  <tr>
+    <td align="center"><img src="https://avatars.githubusercontent.com/u/35067896?v=4" width="75px;" alt=""/><br /><sub><b>Madhumitha Aravelli</sub></a><br /></td>
+  </tr>
+</table>
+
+# :calling: Support
+
+For any support, email us at `maravel@ncsu.edu`
 
