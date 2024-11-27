@@ -15,7 +15,8 @@
 [![DOI](https://zenodo.org/badge/429097663.svg)](https://zenodo.org/badge/latestdoi/429097663)
 [![Version](https://img.shields.io/github/v/release/madhumithaaravelli/Project3?color=ff69b4&label=Version)](https://img.shields.io/github/v/release/madhumithaaravelli/Project3?color=ff69b4&label=Version)
 [![Release](https://img.shields.io/github/v/release/madhumithaaravelli/Project3)](https://gitHub.com/madhumithaaravelli/Project3)
-[![codecov](https://codecov.io/gh/madhumithaaravelli/Project3/graph/badge.svg?token=RH472ZM4PT)](https://codecov.io/gh/madhumithaaravelli/Project3)
+[![coverage-badge](https://img.shields.io/badge/Coverage-91%25-brightgreen.svg)
+[![codecov](https://img.shields.io/badge/pylint-10.0-brightgreen)](https://github.com/CSC510-SE-SAITEJA-MADHUMITHA-SHRUTI/HW1/actions/workflows/static-analysis.yml)
 [![Build Status](https://github.com/madhumithaaravelli/Project3/actions/workflows/main.yml/badge.svg)](https://github.com/madhumithaaravelli/Project3/actions/workflows/main.yml)
 
 # Python LS Tool
